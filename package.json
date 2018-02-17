@@ -1,0 +1,20 @@
+{
+  "fitbit": {
+    "appUUID": "0d39f763-0f8c-4ab2-8036-ff2bbb2c938d",
+    "appType": "app",
+    "appDisplayName": "FirstProject",
+    "iconFile": "resources/icon.png",
+    "wipeColor": "#00bcd4",
+    "requestedPermissions": [
+      "access_activity",
+      "access_user_profile",
+      "access_heart_rate",
+      "access_location"
+    ],
+    "i18n": {
+      "en": {
+        "name": "FirstProject"
+      }
+    }
+  }
+}
