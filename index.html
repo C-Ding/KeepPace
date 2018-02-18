@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <script src="https://code.jquery.com/jquery-2.2.0.js"></script>
+        <script type="text/javascript" src="myo.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/mathjs/2.7.0/math.js"></script>
+    </head>
+    <body>
+        <h2>Let's calibrate your Myo</h2>
+        <h3 id ="connect" >Connect Myo</h3>
+
+        <script>
+            var data_set = Array.apply(null, new Array(150)).map(function() {return 0;});
+          
+            var states = {
+               	lowPace : 0,
+                highPace : 1,
+                off : 2, 
+            }
+            var task, up_val, down_val, prev_time, added_one = false, added_two = false, max = 0;
+
+            Myo.connect('com.cd.myoapp');
+
+            Myo.on('connected', function(){
+                $('h3').html('Connected!');
+                this.vibrate('short');
+                this.vibrate('short');
+                $('body').append('<h3 id = "Start_position">Get started skipping!</h3>');
+                task = states.lowPace;
+                this.streamEMG(true);
+            });
+
+            Myo.on('disconnected', function(){
+                $('h3').html('Disconnected!');
+                task = states.off;
+            });
+       		      
+       		}
+            void function vibrateYolo() { 
+            	this.vibrate('short');
+            }
+
+            function add(a, b) {
+                return a + b;
+            }
+
+            function sleep(miliseconds) {
+   				var currentTime = new Date().getTime()
+  				while (currentTime + miliseconds >= new Date().getTime()) {
+  							}
+  			}
+            var thresh = 150; 
+    		Myo.on('emg', function(data){
+                var data_sum = data.map(Math.abs).reduce(add,0);
+                //console.log(data_sum); 
+                data_set.push(data_sum);
+               // console.log(data_sum);
+                var value = data_set.shift();
+               // console.log(value); 
+                var average = data_set.reduce(add,0)/data_set.length;
+               // console.log(average);
+                console.log(average);
+               
+
+                if(task == states.lowPace){ 
+                	if (average < thresh){
+                		$('h3').html("Common pick up the pace!")
+                		if ()
+                		//	setTimeout(vibrateYolo(), 50);
+                		this.vibrate("short"); 
+                		sleep(20); 
+                	}else {
+                		task = states.highPace; 
+                	}
+                }
+
+                if(task == states.highPace){ 
+                	if (average >= thresh){ 
+                		$('h3').html("Keep up the pace. You're doing great!")
+                		//Blank code did it for future 
+                		//OOD design with states
+                	}else {
+                		task = states.lowPace; 
+                	}
+                }
+            })
+        </script>
+
+    </body>
+</html>
